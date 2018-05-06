@@ -1,0 +1,18 @@
+let logCommand = require('./commands/logCommand/index.js');
+let pingCommand = require('./commands/pingCommand/index.js');
+let helpCommand = require('./commands/helpCommand/index.js');
+let zalgoCommand = require('./commands/zalgoCommand/index.js');
+let inviteCommand = require('./commands/inviteCommand/index.js');
+let xkcdCommand = require('./commands/xkcdCommand/index.js');
+let Bot = require('./bot.js');
+let client = new Bot({
+	commands: [
+		logCommand,
+		pingCommand,
+		helpCommand,
+		zalgoCommand,
+		inviteCommand,
+		xkcdCommand
+	]
+});
+
