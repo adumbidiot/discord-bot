@@ -29,6 +29,7 @@
     "opusscript": "0.0.6",
     "uws": "^9.148.0",
     "winston": "^3.0.0-rc5",
+    "ytdl-core": "^0.20.2",
     "zlib-sync": "^0.1.4"
   }
 }
