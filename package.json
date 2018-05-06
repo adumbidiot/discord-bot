@@ -23,8 +23,10 @@
   "homepage": "https://github.com/adumbidiot/discord-bot#readme",
   "dependencies": {
     "discord.js": "^11.3.2",
+    "erlpack": "github:discordapp/erlpack",
     "libsodium-wrappers": "^0.7.3",
     "node-opus": "^0.2.7",
+    "opusscript": "0.0.6",
     "uws": "^9.148.0",
     "winston": "^3.0.0-rc5",
     "zlib-sync": "^0.1.4"

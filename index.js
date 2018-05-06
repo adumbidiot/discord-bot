@@ -4,6 +4,7 @@ let helpCommand = require('./commands/helpCommand/index.js');
 let zalgoCommand = require('./commands/zalgoCommand/index.js');
 let inviteCommand = require('./commands/inviteCommand/index.js');
 let xkcdCommand = require('./commands/xkcdCommand/index.js');
+let playCommand = require('./commands/playCommand/index.js');
 let Bot = require('./bot.js');
 let client = new Bot({
 	commands: [
@@ -12,7 +13,8 @@ let client = new Bot({
 		helpCommand,
 		zalgoCommand,
 		inviteCommand,
-		xkcdCommand
+		xkcdCommand,
+		playCommand
 	]
 });
 
