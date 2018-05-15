@@ -1,6 +1,7 @@
 const discord = require('discord.js');
 const fs = require('fs');
 const log = require('./logger.js');
+const table = require('hashtable');
 
 module.exports = class Bot {
 	constructor(opts){
@@ -48,5 +49,20 @@ function getToken(){
 			log.info('TOKEN loaded from file token.txt!');
 			return token;
 		}
+	}
+}
+
+class Storage{
+	constructor(){
+		this.table = new hashtabe(); 
+	}
+	get(key){
+		return this.table.get(key);
+	}
+	set(key, value){
+		
+	}
+	remove(key){
+		
 	}
 }

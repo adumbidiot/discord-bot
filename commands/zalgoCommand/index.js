@@ -6,7 +6,7 @@ module.exports = new Command({
 		return msg.content.startsWith(commandName);
 	},
 	onMessage(bot, msg){
-		msg.reply(zalgoify(msg.content));
+		msg.reply(zalgoify(msg.content.substr(commandName.length)));
 	},
 	helpData: new HelpData({
 		name: commandName,
