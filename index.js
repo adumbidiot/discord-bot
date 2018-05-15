@@ -7,6 +7,7 @@ let xkcdCommand = require('./commands/xkcdCommand/index.js');
 let playCommand = require('./commands/playCommand/index.js');
 let stopCommand = require('./commands/stopCommand/index.js');
 let swearCommand = require('./commands/swearCommand/index.js');
+let vaporCommand = require('./commands/vaporCommand/index.js');
 let Bot = require('./bot.js');
 let client = new Bot({
 	commands: [
@@ -18,7 +19,8 @@ let client = new Bot({
 		xkcdCommand,
 		playCommand,
 		stopCommand,
-		swearCommand
+		swearCommand,
+		vaporCommand
 	]
 });
 
