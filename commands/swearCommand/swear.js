@@ -1,12 +1,12 @@
 const fs = require('fs');
-const lib = JSON.parse(fs.readFileSync( __dirname + "/swears.json"));
+const swearLib = JSON.parse(fs.readFileSync( __dirname + "/swears.json"));
 const cleanLib = JSON.parse(fs.readFileSync( __dirname + "/clean.json"));
-const blacklist = JSON.parse(fs.readFileSync( __dirname + "/blacklist.json"));
+//const blacklist = JSON.parse(fs.readFileSync( __dirname + "/blacklist.json"));
 
 module.exports.isSwear = function(str){
-	for(let i = 0; i != lib.length; i++){
+	for(let i = 0; i != swearLib.length; i++){
 		let test = str.toLowerCase();
-		if(test.includes(lib[i].toLowerCase())){
+		if(test.includes(swearLib[i].toLowerCase())){
 			for(let j = 0; j != cleanLib.length; j++){
 				if(test.includes(cleanLib[j].toLowerCase())){
 					return false;
@@ -22,9 +22,9 @@ const natural = require('natural');
 const classifierBayes = new natural.BayesClassifier();
 const classifier = new natural.LogisticRegressionClassifier();
 
-for(let i = 0; i != lib.length; i++){
-	classifier.addDocument(lib[i], 'swear');
-	classifierBayes.addDocument(lib[i], 'swear');
+for(let i = 0; i != swearLib.length; i++){
+	classifier.addDocument(swearLib[i], 'swear');
+	classifierBayes.addDocument(swearLib[i], 'swear');
 }
 
 for(let i = 0; i != cleanLib.length; i++){
@@ -45,10 +45,12 @@ classifierBayes.save('classifierBayes.json', function(err, c) {
 
 
 module.exports.isSwearLinearRegression = function(str){
-	return (classifier.classify(str) === 'swear') && !blacklist.includes(str);
+	return ((classifier.classify(str) === 'swear') && !cleanLib.includes(str)) || swearLib.includes(str);
 }
 
+module.exports.trainingData = swearLib.length + cleanLib.length;
+
 module.exports.isSwearNaiveBayes = function(str){
-	return (classifierBayes.classify(str) === 'swear') && !blacklist.includes(str);
+	return ((classifierBayes.classify(str) === 'swear') && !cleanLib.includes(str)) || swearLib.includes(str);
 }
 

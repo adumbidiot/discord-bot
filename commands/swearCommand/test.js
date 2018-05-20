@@ -1,132 +1,8 @@
-const {isSwear, isSwearLinearRegression, isSwearNaiveBayes} = require('./swear.js');
+const {isSwear, isSwearLinearRegression, isSwearNaiveBayes, trainingData} = require('./swear.js');
 const colors = require('colors');
 const fs = require('fs');
 const list = JSON.parse(fs.readFileSync(__dirname + '/test.json'));
 let oldList = [
-	{
-		word: "gotta birb parents randomly sending me to do random shit",
-		swear: true
-	},
-	{
-		word: "why not both? its an action rpg",
-		swear: false
-	},
-	{
-		word: "use the greatsword",
-		swear: false
-	},
-	{
-		word: "So if you aren't taking it this year you might want to consider taking it next year",
-		swear: false
-	},
-	{
-		word: "looks good to me",
-		swear: false
-	},
-	{
-		word: "I’ve been working on the  new level builder extremely slowly. I’ve been trying to pick a UI library in c++ they’re all shit. Finally picked a library and built the sample app. Wanted your thoughts on it",
-		swear: true
-	},
-	{
-		word: "I'm not sure if that guy is dumb or smart",
-		swear: false
-	},
-	{
-		word: "ill follow your advise and try to work around the need of a tilesheet/number system",
-		swear: false
-	},
-	{
-		word: "Let's say it was murder, very serious and the guilty people should definitely be severely punished",
-		swear: false
-	},
-	{
-		word: "Was moving sheeeit brah",
-		swear: true
-	},
-	{
-		word: "stop doing education",
-		swear: false
-	},
-	{
-		word: "NIGGER",
-		swear: true
-	},
-	{
-		word: "GET THE FUCK ON\\",
-		swear: true
-	},
-	{
-		word: "shitlick",
-		swear: true
-	},
-	{
-		word:"Eat a dick cuckstain",
-		swear: true
-	},
-	{
-		word: "mythic you disgusting fucking cunt",
-		swear: true
-	},
-	{
-		word: "nigger",
-		swear: true
-	},
-	{
-		word: "my moms vagina",
-		swear: true
-	},
-	{
-		word: "why am i a niggah pappi",
-		swear: true
-	},
-	{
-		word: "what a fucking nigger",
-		swear: true
-	},
-	{
-		word: "Hey is pikadick allowed back if he isn't a nigger",
-		swear: true
-	},
-	{
-		word: "yo wtf its says voice activity is automatic",
-		swear: true
-	},
-	{
-		word: "S H I T",
-		swear: true
-	},
-	{
-		word: "SH IT",
-		swear: true
-	},
-	{
-		word: "CR AP",
-		swear: true
-	},
-	{
-		word: "Heck",
-		swear: true
-	},
-	{
-		word: "can we talk about the tits",
-		swear: true
-	},
-	{
-		word: "I told jack it was a moral choice",
-		swear: false
-	},
-	{
-		word: "picking one of them first",
-		swear: false
-	},
-	{
-		word: "he freaked out",
-		swear: false
-	},
-	{
-		word: "it was great",
-		swear: false
-	},
 	{
 		word: "they shunned him for his long dong, now he stabs them with his sharp shlong",
 	},
@@ -268,6 +144,194 @@ let oldList = [
 	{
 		word: "",
 		swear: false
+	},
+	{
+		word: "god",
+		swear: false
+	},
+	{
+		word: "fuckyoutoo",
+		swear: true
+	},
+	{
+		word: "dumb",
+		swear: false
+	},
+	{
+		word: "dumbass",
+		swear: true
+	},
+	{
+		word: "dumb@ss",
+		swear: true
+	},
+	{
+		word: "dumb@$$",
+		swear: true
+	},
+	{
+		word: "@sshole",
+		swear: true
+	},
+	{
+		word: "@$$hole",
+		swear: true
+	},
+	{
+		word: "sexyassmotherfucker",
+		swear: true
+	},
+	{
+		word: "dumbasscunt",
+		swear: true
+	},
+	{
+		word: "dumbasswordswordswords",
+		swear: true
+	},
+	{
+		word: "godlike",
+		swear: false
+	},
+	{
+		word: "fuckgod",
+		swear: true
+	},
+	{
+		word: "godisgreat",
+		swear: false
+	},
+	{
+		word: "godisgood",
+		swear: false
+	},
+	{
+		word: "goddamn",
+		swear: true
+	},
+	{
+		word: "goddriven",
+		swear: false
+	},
+	{
+		word: "the existence of god",
+		swear: false
+	},
+	{
+		word: "theexistenceofgod",
+		swear: false
+	},
+	{
+		word: "god is one",
+		swear: false
+	},
+	{
+		word: "godisone",
+		swear: false
+	},
+	{
+		word: "only god can judge me",
+		swear: false
+	},
+	{
+		word: "onlygodcanjudgeme",
+		swear: false
+	},
+	{
+		word: "god sees all",
+		swear: false
+	},
+	{
+		word: "godseesall",
+		swear: false
+	},
+	{
+		word: "god will judge all",
+		swear: false
+	},
+	{
+		word: "godwilljudgeall",
+		swear: false
+	},
+	{
+		word: "godhatesme",
+		swear: false
+	},
+	{
+		word: "godlovesall",
+		swear: false
+	},
+	{
+		word: "whydoesgodhateme?",
+		swear: false
+	},
+	{
+		word: "do you thing god stays in heaven because hes afraid of what he created?",
+		swear: false
+	},
+	{
+		word: "doyouthinggodstaysinheavenbecausehesafraidofwhathecreated?",
+		swear: false
+	},
+	{
+		word: "broke ass nigga",
+		swear: true
+	},
+	{
+		word: "brokeassnigga",
+		swear: true
+	},
+	{
+		word: "why has god abandoned us?",
+		swear: false
+	},
+	{
+		word: "whyhasgodabandonedus?",
+		swear: false
+	},
+	{
+		word: "any idea what could've caused my computer to do this?",
+		swear: false
+	},
+	{
+		word: "Also is this seriously triggering after everything",
+		swear: false
+	},
+	{
+		word: "After rebooting it's acting normal",
+		swear: false
+	},
+	{
+		word: "Potato",
+		swear: false
+	},
+	{
+		word: "Pikachu",
+		swear: false
+	},
+	{
+		word: "Djqkgnsjf",
+		swear: false
+	},
+	{
+		word: "bot is borked",
+		swear: false
+	},
+	{
+		word: "bork",
+		swear: false
+	},
+	{
+		word: "what the fuck happened here",
+		swear: true
+	},
+	{
+		word: "rebooting works because it clears the ram, and any errors that might have been there",
+		swear: false
+	},
+	{
+		word: "this normally happens during a shutdown, but windows does a \"fake shutdown\" and stores the contents of the ram to the hard disk to start faster",
+		swear: false
 	}
 ];
 /*
@@ -333,6 +397,6 @@ function testClassifier(name, classifier, hide){
 			break;
 		}
 	}
-	data +=  displayFraction+ '\t' + displayPercentage + "\t" + (endTime.getTime() - startTime.getTime()) + 'ms';
+	data +=  displayFraction+ '\t' + displayPercentage + "\t" + (endTime.getTime() - startTime.getTime()) + 'ms\t' + trainingData + ' entries';
 	console.log(data + '\n');
 }
