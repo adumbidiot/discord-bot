@@ -26,6 +26,7 @@
     "erlpack": "github:discordapp/erlpack",
     "hashtable": "^2.0.2",
     "libsodium-wrappers": "^0.7.3",
+    "natural": "^0.6.0",
     "node-opus": "^0.2.7",
     "opusscript": "0.0.6",
     "uws": "^9.148.0",

@@ -1,8 +1,9 @@
 const {Command} = require('../Command.js');
-const {isSwear} = require('./swear.js');
+const {isSwear, isSwearNaiveBayes, isSwearLinearRegression} = require('./swear.js');
 module.exports = new Command({
 	onMessageTest(bot, msg){
-		return isSwear(msg.content);
+		//Bit slow. Maybe add a cache?
+		return isSwearNaiveBayes(msg.content)/* && isSwearLinearRegression(msg)*/;
 	},
 	onMessage(bot, msg){
 		msg.channel.send({
