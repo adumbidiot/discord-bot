@@ -264,6 +264,10 @@ let oldList = [
 	{
 		word: "fuckyouandeverythingyoustandfor",
 		swear: true
+	},
+	{
+		word: "",
+		swear: false
 	}
 ];
 /*

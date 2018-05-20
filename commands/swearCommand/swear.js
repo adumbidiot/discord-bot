@@ -1,6 +1,7 @@
 const fs = require('fs');
 const lib = JSON.parse(fs.readFileSync( __dirname + "/swears.json"));
 const cleanLib = JSON.parse(fs.readFileSync( __dirname + "/clean.json"));
+const blacklist = JSON.parse(fs.readFileSync( __dirname + "/blacklist.json"));
 
 module.exports.isSwear = function(str){
 	for(let i = 0; i != lib.length; i++){
@@ -42,20 +43,12 @@ classifierBayes.save('classifierBayes.json', function(err, c) {
 
 });
 
-//TODO: Remove
-module.exports.isSwearNatural = function(str){
-	return classifier.classify(str) === 'swear';
-}
-
-module.exports.isSwearNaturalBayes = function(str){
-	return classifierBayes.classify(str) === 'swear';
-}
 
 module.exports.isSwearLinearRegression = function(str){
-	return classifier.classify(str) === 'swear';
+	return (classifier.classify(str) === 'swear') && !blacklist.includes(str);
 }
 
 module.exports.isSwearNaiveBayes = function(str){
-	return classifierBayes.classify(str) === 'swear';
+	return (classifierBayes.classify(str) === 'swear') && !blacklist.includes(str);
 }
 
