@@ -3,7 +3,7 @@ const {isSwear, isSwearNaiveBayes, isSwearLinearRegression} = require('./swear.j
 module.exports = new Command({
 	onMessageTest(bot, msg){
 		//Bit slow. Maybe add a cache?
-		return isSwearNaiveBayes(msg.content)/* && isSwearLinearRegression(msg)*/;
+		return isSwearLinearRegression(msg.content);//isSwearNaiveBayes(msg.content)/* && isSwearLinearRegression(msg)*/;
 	},
 	onMessage(bot, msg){
 		msg.channel.send({

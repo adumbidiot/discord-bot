@@ -332,6 +332,38 @@ let oldList = [
 	{
 		word: "this normally happens during a shutdown, but windows does a \"fake shutdown\" and stores the contents of the ram to the hard disk to start faster",
 		swear: false
+	},
+	{
+		word: "smartass",
+		swear: true
+	},
+	{
+		word: "motherfucker",
+		swear: true
+	},
+	{
+		word: "fucker",
+		swear: true
+	},
+	{
+		word: "fucktard",
+		swear: true
+	},
+	{
+		word: "f u c k",
+		swear: true
+	},
+	{
+		word: "shithead",
+		swear: true
+	},
+	{
+		word: "ithinkyoushouldgofuckyourself",
+		swear: true
+	},
+	{
+		word: "what if i embed the word into a different word, like applefucktards",
+		swear: true
 	}
 ];
 /*

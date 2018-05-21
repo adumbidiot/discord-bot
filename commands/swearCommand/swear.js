@@ -49,6 +49,8 @@ module.exports.isSwearLinearRegression = function(str){
 }
 
 module.exports.trainingData = swearLib.length + cleanLib.length;
+module.exports.trainingDataSwear = swearLib.length;
+module.exports.trainingDataClean = cleanLib.length;
 
 module.exports.isSwearNaiveBayes = function(str){
 	return ((classifierBayes.classify(str) === 'swear') && !cleanLib.includes(str)) || swearLib.includes(str);
