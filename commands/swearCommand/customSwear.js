@@ -1,0 +1,4 @@
+let list = [
+	"shit"
+];
+
