@@ -1,0 +1,9 @@
+[package]
+name = "xkcd"
+version = "0.0.1"
+authors = ["adumbidiot <nathaniel.daniel23@outlook.com>"]
+edition = "2018"
+
+[dependencies]
+hyper = "0.10"
+hyper-native-tls = "0.2"

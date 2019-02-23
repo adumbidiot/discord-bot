@@ -1,0 +1,16 @@
+[package]
+name = "discord-bot"
+version = "0.0.1"
+authors = ["adumbidiot <nathaniel.daniel23@outlook.com>"]
+edition = "2018"
+
+[dependencies]
+serenity = "0.5"
+serde = "1"
+serde_derive = "1.0"
+toml = "0.4"
+chrono = "0.4"
+zalgo = { git = "https://github.com/adumbidiot/zalgo-rs", rev = "1772ba1d8a0769093f84207ea2e797eacd597629" }
+schoology = {git = "https://github.com/adumbidiot/schoology-rs", rev = "ddba133c5d3a24d6f1ef26249fef35960b06b356"}
+xkcd = {path = "./lib/xkcd"}
+fml = {path = "./lib/fml"}

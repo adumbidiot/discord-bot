@@ -1,0 +1,10 @@
+[package]
+name = "fml"
+version = "0.1.0"
+authors = ["adumbidiot <nathaniel.daniel23@outlook.com>"]
+edition = "2018"
+
+[dependencies]
+hyper = "0.10"
+hyper-native-tls = "0.2"
+select = "0.4"
