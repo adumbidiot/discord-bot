@@ -1,4 +1,0 @@
-let list = [
-	"shit"
-];
-
