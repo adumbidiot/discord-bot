@@ -1,24 +1,21 @@
-extern crate hyper;
-extern crate hyper_native_tls;
-#[macro_use]
-extern crate serde_derive;
-
 use hyper::{
     net::HttpsConnector,
     Client as HyperClient,
 };
 use hyper_native_tls::NativeTlsClient;
+use serde::Deserialize;
 use serde_json::Value;
 use std::collections::HashMap;
 
 #[derive(Debug)]
 pub enum UrbanError {
     Network,
-	JsonError,
+    JsonError,
 }
 
 pub type UrbanResult<T> = Result<T, UrbanError>;
 
+#[derive(Default)]
 pub struct Client {
     handle: HyperClient,
 }
@@ -54,17 +51,17 @@ pub struct DefintionList {
 
 #[derive(Debug, Deserialize)]
 pub struct Definition {
-	author: String,
-	current_vote: String,
-	defid: u64,
-	definition: String,
-	example: String,
-	permalink: String,
-	//sound_urls:
-	thumbs_down: u64,
-	thumbs_up: u64,
-	word: String,
-	written_on: String,
+    author: String,
+    current_vote: String,
+    defid: u64,
+    definition: String,
+    example: String,
+    permalink: String,
+    // sound_urls:
+    thumbs_down: u64,
+    thumbs_up: u64,
+    word: String,
+    written_on: String,
     #[serde(flatten)]
     unknown: HashMap<String, Value>,
 }

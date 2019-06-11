@@ -33,20 +33,19 @@ impl Zalgoify {
 
 impl Command for Zalgoify {
     fn execute(&self, _: &mut Context, msg: &Message, mut args: Args) -> Result<(), CommandError> {
-        let input = args.single_quoted::<String>().unwrap();
+        let input: String = args.single_quoted()?;
         let input_max = args.single().unwrap_or(2000);
 
         let input_len = input.chars().count();
         let total = (input_max as f32 - input_len as f32) / input_len as f32;
-        let max = total / 3.0;
+        let max = (total / 3.0) as usize;
 
-        if max as usize == 0 {
+        if max == 0 {
             msg.channel_id
                 .say("The phrase cannot be zalgoified within the given limits")?;
             return Ok(());
         }
 
-        let max = max as usize;
         let mut zalgoifier = Zalgoifier::new();
         zalgoifier.set_up(RandOrStatic::Static(max));
         zalgoifier.set_down(RandOrStatic::Static(max));
@@ -59,6 +58,6 @@ impl Command for Zalgoify {
     }
 
     fn options(&self) -> Arc<CommandOptions> {
-        return self.opts.clone();
+        self.opts.clone()
     }
 }

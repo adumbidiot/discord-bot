@@ -20,6 +20,7 @@ pub enum XkcdError {
 
 pub type XkcdResult<T> = Result<T, XkcdError>;
 
+#[derive(Default)]
 pub struct Client {
     handle: HyperClient,
 }

@@ -28,6 +28,7 @@ pub enum FmlError {
 
 pub type FmlResult<T> = Result<T, FmlError>;
 
+#[derive(Default)]
 pub struct Client {
     handle: HyperClient,
 }
@@ -200,7 +201,7 @@ pub struct FmlEntry {
     pub text: String,
     pub sucks: u32,    // I agree, your life sucks
     pub deserved: u32, // You deserved it
-    pub amusing: u32, //
+    pub amusing: u32,  //
     pub funny: u32,
     pub weird: u32,
     pub hilarious: u32,

@@ -19,22 +19,20 @@ use schoology::{
         User,
         UserList,
     },
-    UpdateList,
 };
-
-use chrono::TimeZone;
 
 pub struct SchoologyGroup {
     client: Arc<Client>,
-    options: Arc<CommandOptions>,
+    opts: Arc<CommandOptions>,
 }
 
 impl SchoologyGroup {
     pub fn new(client: Arc<Client>) -> Self {
-        let mut options = CommandOptions::default();
+        let mut opts = CommandOptions::default();
+        opts.desc = Some(String::from("Schoology Group Commands"));
         SchoologyGroup {
             client,
-            options: Arc::from(options),
+            opts: Arc::from(opts),
         }
     }
 }
@@ -73,19 +71,24 @@ impl Command for SchoologyGroup {
 
         Ok(())
     }
+
+    fn options(&self) -> Arc<CommandOptions> {
+        self.opts.clone()
+    }
 }
 
 pub struct SchoologyUser {
     client: Arc<Client>,
-    options: Arc<CommandOptions>,
+    opts: Arc<CommandOptions>,
 }
 
 impl SchoologyUser {
     pub fn new(client: Arc<Client>) -> Self {
-        let mut options = CommandOptions::default();
+        let mut opts = CommandOptions::default();
+        opts.desc = Some(String::from("Schoology User Commands"));
         SchoologyUser {
             client,
-            options: Arc::from(options),
+            opts: Arc::from(opts),
         }
     }
 }
@@ -123,6 +126,10 @@ impl Command for SchoologyUser {
         }
 
         Ok(())
+    }
+
+    fn options(&self) -> Arc<CommandOptions> {
+        self.opts.clone()
     }
 }
 // pub struct SchoologyUpdate {
@@ -244,25 +251,24 @@ fn format_user(user: &User) -> String {
     }
     ret
 }
-
-fn format_updates(updates: &UpdateList) -> String {
-    let mut ret = String::from("__**Updates**__\n\n");
-
-    for update in &updates.update {
-        ret += &format!("__***Update***__\n");
-        ret += &format!("\t__ID:__ {}\n", &update.id);
-        ret += &format!("\t__Author:__ {}\n", &update.uid);
-        ret += &format!(
-            "\t__Date:__ {}\n",
-            chrono::Local
-                .timestamp(update.created as i64, 0)
-                .to_rfc2822()
-        );
-        ret += &format!("\t__Likes:__ {}\n", &update.likes);
-        ret += &format!("\t__Comments:__ {}\n", &update.num_comments);
-        ret += &format!("\t__Body:__ {}\n", &update.body);
-        ret += "\n";
-    }
-
-    return ret;
-}
+// fn format_updates(updates: &UpdateList) -> String {
+// let mut ret = String::from("__**Updates**__\n\n");
+//
+// for update in &updates.update {
+// ret += &format!("__***Update***__\n");
+// ret += &format!("\t__ID:__ {}\n", &update.id);
+// ret += &format!("\t__Author:__ {}\n", &update.uid);
+// ret += &format!(
+// "\t__Date:__ {}\n",
+// chrono::Local
+// .timestamp(update.created as i64, 0)
+// .to_rfc2822()
+// );
+// ret += &format!("\t__Likes:__ {}\n", &update.likes);
+// ret += &format!("\t__Comments:__ {}\n", &update.num_comments);
+// ret += &format!("\t__Body:__ {}\n", &update.body);
+// ret += "\n";
+// }
+//
+// return ret;
+// }
