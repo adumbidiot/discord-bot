@@ -76,6 +76,7 @@ fn main() {
         .cmd("vaporwave", commands::Vaporwave::new())
         .cmd("xkcd", commands::Xkcd::new())
         .cmd("fml", commands::Fml::new()) // TODO: Finish formatting command output
+        .cmd("ttt", commands::TicTacToe::new())
         .group("schoology", |g| {
             g.prefixes(vec!["schoology"])
                 .desc("A group with commands accessing the schoology api")
