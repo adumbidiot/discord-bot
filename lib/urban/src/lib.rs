@@ -1,8 +1,4 @@
-use hyper::{
-    net::HttpsConnector,
-    Client as HyperClient,
-};
-use hyper_native_tls::NativeTlsClient;
+use reqwest::Client as ReqwestClient;
 use serde::Deserialize;
 use serde_json::Value;
 use std::collections::HashMap;
@@ -15,53 +11,56 @@ pub enum UrbanError {
 
 pub type UrbanResult<T> = Result<T, UrbanError>;
 
-#[derive(Default)]
 pub struct Client {
-    handle: HyperClient,
+    handle: ReqwestClient,
+}
+
+impl Default for Client {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl Client {
     pub fn new() -> Self {
-        let ssl = NativeTlsClient::new().unwrap(); // TODO: Return result
-        let connector = HttpsConnector::new(ssl);
-        let handle = HyperClient::with_connector(connector);
-        Client { handle }
+        Client {
+            handle: ReqwestClient::new(),
+        }
     }
 
     pub fn lookup(&self, word: &str) -> UrbanResult<DefintionList> {
-        let res = self
-            .handle
+        self.handle
             .get(&format!(
                 "https://api.urbandictionary.com/v0/define?term={}",
                 word
             ))
             .send()
-            .map_err(|_| UrbanError::Network)?;
-
-        serde_json::from_reader(res).map_err(|_| UrbanError::JsonError)
+            .map_err(|_| UrbanError::Network)?
+            .json()
+            .map_err(|_| UrbanError::JsonError)
     }
 }
 
 #[derive(Debug, Deserialize)]
 pub struct DefintionList {
-    list: Vec<Definition>,
+    pub list: Vec<Definition>,
     #[serde(flatten)]
-    unknown: HashMap<String, Value>,
+    pub unknown: HashMap<String, Value>,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct Definition {
-    author: String,
-    current_vote: String,
-    defid: u64,
-    definition: String,
-    example: String,
-    permalink: String,
+    pub author: String,
+    pub current_vote: String,
+    pub defid: u64,
+    pub definition: String,
+    pub example: String,
+    pub permalink: String,
     // sound_urls:
-    thumbs_down: u64,
-    thumbs_up: u64,
-    word: String,
-    written_on: String,
+    pub thumbs_down: u64,
+    pub thumbs_up: u64,
+    pub word: String,
+    pub written_on: String,
     #[serde(flatten)]
-    unknown: HashMap<String, Value>,
+    pub unknown: HashMap<String, Value>,
 }

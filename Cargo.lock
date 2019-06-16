@@ -260,6 +260,7 @@ dependencies = [
  "serenity 0.5.14 (registry+https://github.com/rust-lang/crates.io-index)",
  "toml 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "ttt 0.1.0 (git+https://github.com/adumbidiot/TTT?rev=0d3628ac897636e5ffb613e1cfcce9dfbc1c9764)",
+ "urban 0.0.1",
  "xkcd 0.0.1",
  "zalgo 0.1.0 (git+https://github.com/adumbidiot/zalgo-rs?rev=1772ba1d8a0769093f84207ea2e797eacd597629)",
 ]
@@ -1088,6 +1089,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "reddit"
+version = "0.0.1"
+dependencies = [
+ "hyper 0.10.16 (registry+https://github.com/rust-lang/crates.io-index)",
+ "hyper-native-tls 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde 1.0.92 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_derive 1.0.92 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.39 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "redox_syscall"
 version = "0.1.54"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1658,8 +1670,7 @@ dependencies = [
 name = "urban"
 version = "0.0.1"
 dependencies = [
- "hyper 0.10.16 (registry+https://github.com/rust-lang/crates.io-index)",
- "hyper-native-tls 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "reqwest 0.9.18 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.92 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_json 1.0.39 (registry+https://github.com/rust-lang/crates.io-index)",
 ]

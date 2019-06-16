@@ -85,6 +85,7 @@ fn main() {
         .cmd("xkcd", commands::Xkcd::new())
         .cmd("fml", commands::Fml::new(fml_client.clone())) // TODO: Finish formatting command output
         .cmd("ttt", commands::TicTacToe::new())
+        .cmd("urban", commands::Urban::new())
         .group("schoology", |g| {
             g.prefixes(vec!["schoology"])
                 .desc("A group with commands accessing the schoology api")
