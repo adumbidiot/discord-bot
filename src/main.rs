@@ -36,7 +36,7 @@ struct Config {
     // TODO: Validate function
     token: String,
     schoology: SchoologyConfig,
-	fml: FmlConfig,
+    fml: FmlConfig,
     #[serde(flatten)]
     extra: HashMap<String, Value>,
 }
@@ -74,8 +74,8 @@ fn main() {
         config.schoology.token,
         config.schoology.secret,
     ));
-	
-	let fml_client = Arc::from(fml::Client::new(&config.fml.key));
+
+    let fml_client = Arc::from(fml::Client::new(&config.fml.key));
 
     let framework = StandardFramework::new()
         .configure(|c| c.prefix("~"))

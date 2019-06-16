@@ -1,15 +1,4 @@
-extern crate hyper;
-extern crate hyper_native_tls;
-
-use hyper::{
-    client::RedirectPolicy,
-    header::Location,
-    net::HttpsConnector,
-    status::StatusCode,
-    Client as HyperClient,
-};
-
-use hyper_native_tls::NativeTlsClient;
+use reqwest::Client as ReqwestClient;
 
 #[derive(Debug)]
 pub enum XkcdError {
@@ -20,17 +9,22 @@ pub enum XkcdError {
 
 pub type XkcdResult<T> = Result<T, XkcdError>;
 
-#[derive(Default)]
 pub struct Client {
-    handle: HyperClient,
+    handle: ReqwestClient,
+}
+
+impl Default for Client {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl Client {
     pub fn new() -> Self {
-        let ssl = NativeTlsClient::new().unwrap(); // TODO: Return result
-        let connector = HttpsConnector::new(ssl);
-        let mut handle = HyperClient::with_connector(connector);
-        handle.set_redirect_policy(RedirectPolicy::FollowNone);
+        let handle = reqwest::Client::builder()
+            .redirect(reqwest::RedirectPolicy::none())
+            .build()
+            .unwrap();
         Client { handle }
     }
 
@@ -41,13 +35,14 @@ impl Client {
             .send()
             .map_err(|_| XkcdError::Network)?;
 
-        if res.status != StatusCode::Found {
-            return Err(XkcdError::InvalidStatusCode(res.status.to_u16()));
+        let status = res.status();
+        if status != reqwest::StatusCode::FOUND {
+            return Err(XkcdError::InvalidStatusCode(status.as_u16()));
         }
 
-        res.headers
-            .get::<Location>()
-            .map(|h| h.0.clone())
+        res.headers()
+            .get(reqwest::header::LOCATION)
+            .map(|h| h.to_str().unwrap().to_string())
             .ok_or(XkcdError::MissingLocationHeader)
     }
 }

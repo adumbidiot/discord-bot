@@ -14,7 +14,7 @@ use serenity::{
 };
 use std::sync::Arc;
 
-//TODO: Caching
+// TODO: Caching
 pub struct Fml {
     opts: Arc<CommandOptions>,
     client: Arc<Client>,

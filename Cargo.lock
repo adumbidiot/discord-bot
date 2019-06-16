@@ -1757,8 +1757,7 @@ dependencies = [
 name = "xkcd"
 version = "0.0.1"
 dependencies = [
- "hyper 0.10.16 (registry+https://github.com/rust-lang/crates.io-index)",
- "hyper-native-tls 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "reqwest 0.9.18 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
