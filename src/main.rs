@@ -36,6 +36,7 @@ struct Config {
     // TODO: Validate function
     token: String,
     schoology: SchoologyConfig,
+	fml: FmlConfig,
     #[serde(flatten)]
     extra: HashMap<String, Value>,
 }
@@ -44,6 +45,11 @@ struct Config {
 struct SchoologyConfig {
     token: String,
     secret: String,
+}
+
+#[derive(Deserialize, Debug)]
+struct FmlConfig {
+    key: String,
 }
 
 fn load_config(p: &Path) -> Option<Config> {
@@ -68,6 +74,8 @@ fn main() {
         config.schoology.token,
         config.schoology.secret,
     ));
+	
+	let fml_client = Arc::from(fml::Client::new(&config.fml.key));
 
     let framework = StandardFramework::new()
         .configure(|c| c.prefix("~"))
@@ -75,7 +83,7 @@ fn main() {
         .cmd("zalgoify", commands::Zalgoify::new())
         .cmd("vaporwave", commands::Vaporwave::new())
         .cmd("xkcd", commands::Xkcd::new())
-        .cmd("fml", commands::Fml::new()) // TODO: Finish formatting command output
+        .cmd("fml", commands::Fml::new(fml_client.clone())) // TODO: Finish formatting command output
         .cmd("ttt", commands::TicTacToe::new())
         .group("schoology", |g| {
             g.prefixes(vec!["schoology"])

@@ -206,10 +206,11 @@ develop-eggs/
 #NPM
 node_modules
 
-#############
-PERSONAL#####
-#############
+###############
+###PERSONAL####
+###############
 token.txt
+key.txt
 config.toml
 
 #Added by cargo
