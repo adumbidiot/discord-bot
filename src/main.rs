@@ -1,5 +1,7 @@
 mod commands;
 
+use schoology::client::Client as SchoologyClient;
+use serde::Deserialize;
 use serenity::{
     client::{
         Client,
@@ -12,9 +14,6 @@ use serenity::{
     },
     model::gateway::Ready,
 };
-
-use schoology::client::Client as SchoologyClient;
-use serde::Deserialize;
 use std::{
     collections::HashMap,
     path::Path,
@@ -86,6 +85,7 @@ fn main() {
         .cmd("fml", commands::Fml::new(fml_client.clone())) // TODO: Finish formatting command output
         .cmd("ttt", commands::TicTacToe::new())
         .cmd("urban", commands::Urban::new())
+		.cmd("nekos", commands::Nekos::new())
         .group("schoology", |g| {
             g.prefixes(vec!["schoology"])
                 .desc("A group with commands accessing the schoology api")

@@ -1,5 +1,6 @@
 mod fml;
 mod groups;
+mod nekos;
 mod ping;
 mod schoology;
 mod tic_tac_toe;
@@ -9,6 +10,7 @@ mod xkcd;
 mod zalgoify;
 pub use crate::commands::{
     fml::Fml,
+    nekos::Nekos,
     ping::Ping,
     schoology::{
         SchoologyGroup,

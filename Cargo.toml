@@ -16,6 +16,7 @@ xkcd = { path = "./lib/xkcd" }
 fml = { path = "./lib/fml" }
 urban = { path = "./lib/urban"}
 ttt = { git = "https://github.com/adumbidiot/TTT", rev = "0d3628ac897636e5ffb613e1cfcce9dfbc1c9764"}
+nekos = { path = "./lib/nekos"}
 
 [workspace]
 members = [
@@ -23,4 +24,5 @@ members = [
 	"lib/xkcd",
 	"lib/urban",
 	"lib/reddit",
+	"lib/nekos",
 ]

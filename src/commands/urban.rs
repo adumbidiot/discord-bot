@@ -51,11 +51,11 @@ impl Command for Urban {
 
 fn format_defenition(def: &urban::Definition) -> String {
     let mut ret = String::new();
-	ret += &format!("Word: {}\n", def.word);
+    ret += &format!("Word: {}\n", def.word);
     ret += &format!("Definition: {}\n", def.definition);
-	ret += &format!("Example: {}\n", def.example);
-	ret += &format!("👍: {}\n", def.thumbs_up);
-	ret += &format!("👎: {}\n", def.thumbs_down);
-	ret += &format!("Link: {}", def.permalink);
+    ret += &format!("Example: {}\n", def.example);
+    ret += &format!("👍: {}\n", def.thumbs_up);
+    ret += &format!("👎: {}\n", def.thumbs_down);
+    ret += &format!("Link: {}", def.permalink);
     ret
 }
