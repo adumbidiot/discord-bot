@@ -102,9 +102,6 @@ impl TicTacToe {
     pub fn new() -> TicTacToe {
         let mut opts = CommandOptions::default();
         opts.desc = Some(String::from("Play Tic Tac Toe"));
-        // opts.usage = Some(String::from(r#""<phrase>"<Max Length>"#));
-        // opts.example = Some(String::from(r#""Hello World!" 50"#));
-        // opts.min_args = Some(1);
 
         let mut ttt_compiler = ttt::Compiler::new();
         ttt_compiler.compilation = Some(Box::new(ttt::ttt::TTTCompilation::new()));

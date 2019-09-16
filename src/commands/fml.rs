@@ -1,51 +1,28 @@
-use fml::{
-    Article,
-    Client,
-};
+use crate::FmlKey;
+use fml::Article;
 use serenity::{
     client::Context,
     framework::standard::{
+        macros::command,
         Args,
-        Command,
-        CommandError,
-        CommandOptions,
+        CommandResult,
     },
     model::channel::Message,
 };
-use std::sync::Arc;
 
 // TODO: Caching
-pub struct Fml {
-    opts: Arc<CommandOptions>,
-    client: Arc<Client>,
-}
-
-impl Fml {
-    pub fn new(client: Arc<Client>) -> Self {
-        let mut opts = CommandOptions::default();
-        opts.desc = Some(String::from("Get a random story from fmylife.com"));
-
-        Fml {
-            opts: Arc::from(opts),
-            client,
-        }
-    }
-}
-
-impl Command for Fml {
-    fn execute(&self, _: &mut Context, msg: &Message, _: Args) -> Result<(), CommandError> {
-        let res = match self.client.list_random(1) {
-            Ok(data) => format_entry(&data[0]),
-            Err(e) => format!("{:#?}", e),
-        };
-
-        msg.channel_id.say(res)?;
-        Ok(())
-    }
-
-    fn options(&self) -> Arc<CommandOptions> {
-        self.opts.clone()
-    }
+// TODO: Finish formatting command output
+#[command]
+#[description("Get a random story from fmylife.com")]
+fn fml(ctx: &mut Context, msg: &Message, _args: Args) -> CommandResult {
+    let data_lock = ctx.data.read();
+    let fml_client = data_lock.get::<FmlKey>().unwrap();
+    let res = match fml_client.list_random(1) {
+        Ok(data) => format_entry(&data[0]),
+        Err(e) => format!("{:#?}", e),
+    };
+    msg.channel_id.say(&ctx.http, res)?;
+    Ok(())
 }
 
 pub fn format_entry(entry: &Article) -> String {

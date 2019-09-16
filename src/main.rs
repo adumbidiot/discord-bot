@@ -1,5 +1,6 @@
 mod commands;
 
+use commands::*;
 use schoology::client::Client as SchoologyClient;
 use serde::Deserialize;
 use serenity::{
@@ -10,9 +11,14 @@ use serenity::{
     },
     framework::standard::{
         help_commands,
+        macros::{
+            group,
+            help,
+        },
         StandardFramework,
     },
     model::gateway::Ready,
+    prelude::TypeMapKey,
 };
 use std::{
     collections::HashMap,
@@ -28,6 +34,30 @@ impl EventHandler for Handler {
     fn ready(&self, _ctx: Context, _ready: Ready) {
         println!("[INFO] Logged in");
     }
+}
+
+group!({
+    name: "general",
+    options: {},
+    commands: [fml, ping, nekos, xkcd]
+});
+
+struct FmlKey;
+
+impl TypeMapKey for FmlKey {
+    type Value = Arc<fml::Client>;
+}
+
+struct NekosKey;
+
+impl TypeMapKey for NekosKey {
+    type Value = Arc<commands::NekosClient>;
+}
+
+struct XkcdKey;
+
+impl TypeMapKey for XkcdKey {
+    type Value = Arc<xkcd::Client>;
 }
 
 #[derive(Deserialize, Debug)]
@@ -74,36 +104,38 @@ fn main() {
         config.schoology.secret,
     ));
 
-    let fml_client = Arc::from(fml::Client::new(&config.fml.key));
-
     let framework = StandardFramework::new()
         .configure(|c| c.prefix("~"))
-        .cmd("ping", commands::Ping::new())
-        .cmd("zalgoify", commands::Zalgoify::new())
-        .cmd("vaporwave", commands::Vaporwave::new())
-        .cmd("xkcd", commands::Xkcd::new())
-        .cmd("fml", commands::Fml::new(fml_client.clone())) // TODO: Finish formatting command output
-        .cmd("ttt", commands::TicTacToe::new())
-        .cmd("urban", commands::Urban::new())
-        .cmd("nekos", commands::Nekos::new())
-        .group("schoology", |g| {
-            g.prefixes(vec!["schoology"])
-                .desc("A group with commands accessing the schoology api")
-                .cmd(
-                    "group",
-                    commands::SchoologyGroup::new(schoology_client.clone()),
-                )
-                .cmd(
-                    "user",
-                    commands::SchoologyUser::new(schoology_client.clone()),
-                )
-        })
-        .help(help_commands::plain)
+        .group(&GENERAL_GROUP)
+        //.cmd("ttt", commands::TicTacToe::new())
+        //.cmd("urban", commands::Urban::new())
+        // .group("schoology", |g| {
+        // g.prefixes(vec!["schoology"])
+        // .desc("A group with commands accessing the schoology api")
+        // .cmd(
+        // "group",
+        // commands::SchoologyGroup::new(schoology_client.clone()),
+        // )
+        // .cmd(
+        // "user",
+        // commands::SchoologyUser::new(schoology_client.clone()),
+        // )
+        // })
+        //.help(help_commands::plain)
         .on_dispatch_error(|_, msg, error| {
             println!("[ERROR] {:?}{}", error, msg.content);
         });
 
     client.with_framework(framework);
+
+    let nekos_client = Arc::from(commands::NekosClient::new());
+    client.data.write().insert::<NekosKey>(nekos_client);
+
+    let fml_client = Arc::from(fml::Client::new(&config.fml.key));
+    client.data.write().insert::<FmlKey>(fml_client);
+
+    let xkcd_client = Arc::from(xkcd::Client::new());
+    client.data.write().insert::<XkcdKey>(xkcd_client);
 
     println!("[INFO] Logging in...");
     if let Err(why) = client.start() {

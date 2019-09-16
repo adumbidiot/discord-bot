@@ -1,39 +1,32 @@
+use crate::NekosKey;
 use nekos::{
     Client,
     Image,
-	NekosError
+    NekosError,
 };
 use serenity::{
     client::Context,
     framework::standard::{
+        macros::command,
         Args,
-        Command,
-        CommandError,
-        CommandOptions,
+        CommandResult,
     },
     model::channel::Message,
+    prelude::RwLock,
 };
-use std::sync::{
-    Arc,
-    RwLock,
-};
+use std::sync::Arc;
 
 type ShareVec = Arc<RwLock<Vec<Image>>>;
 
-pub struct Nekos {
-    opts: Arc<CommandOptions>,
+pub struct NekosClient {
     client: Client,
     nsfw_buffer: ShareVec,
     buffer: ShareVec,
 }
 
-impl Nekos {
+impl NekosClient {
     pub fn new() -> Self {
-        let mut opts = CommandOptions::default();
-        opts.desc = Some(String::from("Get a random catgirl image"));
-
-        Nekos {
-            opts: Arc::from(opts),
+        NekosClient {
             client: Client::new(),
             buffer: Arc::from(RwLock::from(Vec::with_capacity(100))),
             nsfw_buffer: Arc::from(RwLock::from(Vec::with_capacity(100))),
@@ -49,48 +42,49 @@ impl Nekos {
     }
 
     fn get_image_from_buffer(&self, nsfw: bool) -> Option<Image> {
-        self.get_buffer(nsfw).write().unwrap().pop()
+        self.get_buffer(nsfw).write().pop()
     }
 
-    fn populate_buffer(&self, nsfw:bool) -> Result<(), NekosError> {
+    fn populate_buffer(&self, nsfw: bool) -> Result<(), NekosError> {
         self.client.get_random_images(nsfw, 100).map(|image_list| {
             self.get_buffer(nsfw)
                 .write()
-                .unwrap()
                 .extend_from_slice(&image_list.images)
         })
     }
 }
 
-impl Command for Nekos {
-    fn execute(&self, _: &mut Context, msg: &Message, mut args: Args) -> Result<(), CommandError> {
-        let nsfw = args
-            .single::<String>()
-            .map(|s| s == "--nsfw")
-            .unwrap_or(false);
+#[command]
+#[description("Get a random catgirl image")]
+fn nekos(ctx: &mut Context, msg: &Message, mut args: Args) -> CommandResult {
+    let nsfw = args
+        .single::<String>()
+        .map(|s| s == "--nsfw")
+        .unwrap_or(false);
 
-        if let Some(image) = self.get_image_from_buffer(nsfw) {
-            msg.channel_id
-                .say(format!("https://nekos.moe/image/{}", image.id))?;
-        } else {
-            match self.populate_buffer(nsfw) {
-                Ok(()) => {
-                    msg.channel_id.say(format!(
+    let data_lock = ctx.data.read();
+    let nekos_client = data_lock.get::<NekosKey>().unwrap();
+
+    if let Some(image) = nekos_client.get_image_from_buffer(nsfw) {
+        msg.channel_id
+            .say(&ctx.http, format!("https://nekos.moe/image/{}", image.id))?;
+    } else {
+        match nekos_client.populate_buffer(nsfw) {
+            Ok(()) => {
+                msg.channel_id.say(
+                    &ctx.http,
+                    format!(
                         "https://nekos.moe/image/{}",
-                        self.get_image_from_buffer(nsfw).unwrap().id
-                    ))?;
-                }
-                Err(e) => {
-                    msg.channel_id.say(format!("{:#?}", e))?;
-                    return Ok(());
-                }
+                        nekos_client.get_image_from_buffer(nsfw).unwrap().id
+                    ),
+                )?;
+            }
+            Err(e) => {
+                msg.channel_id.say(&ctx.http, format!("{:#?}", e))?;
+                return Ok(());
             }
         }
-
-        Ok(())
     }
 
-    fn options(&self) -> Arc<CommandOptions> {
-        self.opts.clone()
-    }
+    Ok(())
 }

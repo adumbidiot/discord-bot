@@ -1,45 +1,24 @@
 use serenity::{
     client::Context,
     framework::standard::{
+        macros::command,
         Args,
-        Command,
-        CommandError,
-        CommandOptions,
+        CommandResult,
     },
     model::channel::Message,
 };
-use std::sync::Arc;
-use xkcd::Client;
+use crate::XkcdKey;
 
-pub struct Xkcd {
-    opts: Arc<CommandOptions>,
-    client: Client,
-}
+#[command]
+#[description("Get a random comic from Xkcd")]
+fn xkcd(ctx: &mut Context, msg: &Message, _args: Args) -> CommandResult {
+    let xkcd_client = ctx.data.read().get::<XkcdKey>().unwrap().clone();
 
-impl Xkcd {
-    pub fn new() -> Self {
-        let mut opts = CommandOptions::default();
-        opts.desc = Some(String::from("Get a random comic from Xkcd"));
+    let res = match xkcd_client.get_random() {
+        Ok(data) => data,
+        Err(e) => format!("{:#?}", e),
+    };
 
-        Xkcd {
-            opts: Arc::from(opts),
-            client: Client::new(),
-        }
-    }
-}
-
-impl Command for Xkcd {
-    fn execute(&self, _: &mut Context, msg: &Message, _: Args) -> Result<(), CommandError> {
-        let res = match self.client.get_random() {
-            Ok(data) => data,
-            Err(e) => format!("{:#?}", e),
-        };
-
-        msg.channel_id.say(res)?;
-        Ok(())
-    }
-
-    fn options(&self) -> Arc<CommandOptions> {
-        self.opts.clone()
-    }
+    msg.channel_id.say(&ctx.http, res)?;
+    Ok(())
 }
