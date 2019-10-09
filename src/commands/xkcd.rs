@@ -1,3 +1,4 @@
+use crate::XkcdKey;
 use serenity::{
     client::Context,
     framework::standard::{
@@ -7,7 +8,6 @@ use serenity::{
     },
     model::channel::Message,
 };
-use crate::XkcdKey;
 
 #[command]
 #[description("Get a random comic from Xkcd")]
