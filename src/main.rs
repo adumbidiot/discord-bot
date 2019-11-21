@@ -15,13 +15,26 @@ use serenity::{
             group,
             help,
         },
+        Args,
+        CommandGroup,
+        CommandResult,
+        HelpOptions,
         StandardFramework,
     },
-    model::gateway::Ready,
+    model::{
+        gateway::Ready,
+        prelude::{
+            Message,
+            UserId,
+        },
+    },
     prelude::TypeMapKey,
 };
 use std::{
-    collections::HashMap,
+    collections::{
+        HashMap,
+        HashSet,
+    },
     path::Path,
     sync::Arc,
 };
@@ -34,6 +47,18 @@ impl EventHandler for Handler {
     fn ready(&self, _ctx: Context, _ready: Ready) {
         println!("[INFO] Logged in");
     }
+}
+
+#[help]
+fn help(
+    context: &mut Context,
+    msg: &Message,
+    args: Args,
+    help_options: &'static HelpOptions,
+    groups: &[&'static CommandGroup],
+    owners: HashSet<UserId>,
+) -> CommandResult {
+    help_commands::with_embeds(context, msg, args, &help_options, groups, owners)
 }
 
 group!({
@@ -106,6 +131,7 @@ fn main() {
     let framework = StandardFramework::new()
         .configure(|c| c.prefix("~"))
         .group(&GENERAL_GROUP)
+        .help(&HELP)
         //.cmd("ttt", commands::TicTacToe::new())
         //.cmd("urban", commands::Urban::new())
         // .group("schoology", |g| {

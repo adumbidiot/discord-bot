@@ -5,9 +5,9 @@ authors = ["adumbidiot <nathaniel.daniel23@outlook.com>"]
 edition = "2018"
 
 [dependencies]
-serenity = "0.7.1"
-serde = { version = "1.0.101", features = ["derive"] }
-toml = "0.5.3"
+serenity = "0.7.3"
+serde = { version = "1.0.102", features = ["derive"] }
+toml = "0.5.5"
 chrono = "0.4.9"
 #schoology = { git = "https://github.com/adumbidiot/schoology-rs", rev = "ddba133c5d3a24d6f1ef26249fef35960b06b356" }
 xkcd = { path = "./lib/xkcd" }
