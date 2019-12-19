@@ -5,16 +5,15 @@ authors = ["adumbidiot <nathaniel.daniel23@outlook.com>"]
 edition = "2018"
 
 [dependencies]
-serenity = "0.7.3"
-serde = { version = "1.0.102", features = ["derive"] }
+serenity = "0.7.4"
+serde = { version = "1.0.104", features = ["derive"] }
 toml = "0.5.5"
-chrono = "0.4.9"
+chrono = "0.4.10"
 #schoology = { git = "https://github.com/adumbidiot/schoology-rs", rev = "ddba133c5d3a24d6f1ef26249fef35960b06b356" }
 xkcd = { path = "./lib/xkcd" }
 fml = { path = "./lib/fml" }
 urban = { path = "./lib/urban"}
 ttt = { git = "https://github.com/adumbidiot/TTT", rev = "0d3628ac897636e5ffb613e1cfcce9dfbc1c9764"}
-nekos = { git = "https://github.com/swimEat/nekos-rs", rev = "a2abe7f74fdbda6b1eb8d55a83190597994e382c"}
 
 [workspace]
 members = [

@@ -64,19 +64,13 @@ fn help(
 group!({
     name: "general",
     options: {},
-    commands: [fml, ping, nekos, xkcd]
+    commands: [fml, ping, xkcd]
 });
 
 struct FmlKey;
 
 impl TypeMapKey for FmlKey {
     type Value = Arc<fml::Client>;
-}
-
-struct NekosKey;
-
-impl TypeMapKey for NekosKey {
-    type Value = Arc<commands::NekosClient>;
 }
 
 struct XkcdKey;
@@ -152,9 +146,6 @@ fn main() {
         });
 
     client.with_framework(framework);
-
-    let nekos_client = Arc::from(commands::NekosClient::new());
-    client.data.write().insert::<NekosKey>(nekos_client);
 
     let fml_client = Arc::from(fml::Client::new(&config.fml.key));
     client.data.write().insert::<FmlKey>(fml_client);
