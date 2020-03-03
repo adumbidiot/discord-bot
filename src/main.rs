@@ -64,14 +64,8 @@ fn help(
 group!({
     name: "general",
     options: {},
-    commands: [fml, ping, xkcd]
+    commands: [ping, xkcd]
 });
-
-struct FmlKey;
-
-impl TypeMapKey for FmlKey {
-    type Value = Arc<fml::Client>;
-}
 
 struct XkcdKey;
 
@@ -84,7 +78,6 @@ struct Config {
     // TODO: Validate function
     token: String,
     schoology: SchoologyConfig,
-    fml: FmlConfig,
     #[serde(flatten)]
     extra: HashMap<String, Value>,
 }
@@ -93,11 +86,6 @@ struct Config {
 struct SchoologyConfig {
     token: String,
     secret: String,
-}
-
-#[derive(Deserialize, Debug)]
-struct FmlConfig {
-    key: String,
 }
 
 fn load_config(p: &Path) -> Option<Config> {
@@ -146,9 +134,6 @@ fn main() {
         });
 
     client.with_framework(framework);
-
-    let fml_client = Arc::from(fml::Client::new(&config.fml.key));
-    client.data.write().insert::<FmlKey>(fml_client);
 
     let xkcd_client = Arc::from(xkcd::Client::new());
     client.data.write().insert::<XkcdKey>(xkcd_client);
