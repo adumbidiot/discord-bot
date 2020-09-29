@@ -1,4 +1,3 @@
-mod groups;
 mod ping;
 // mod schoology;
 // mod tic_tac_toe;
