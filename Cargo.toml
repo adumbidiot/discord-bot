@@ -11,11 +11,9 @@ toml = "0.5.5"
 chrono = "0.4.10"
 #schoology = { git = "https://github.com/adumbidiot/schoology-rs", rev = "ddba133c5d3a24d6f1ef26249fef35960b06b356" }
 xkcd = { path = "./lib/xkcd" }
-urban = { path = "./lib/urban"}
 ttt = { git = "https://github.com/adumbidiot/TTT", rev = "0d3628ac897636e5ffb613e1cfcce9dfbc1c9764"}
 
 [workspace]
 members = [
 	"lib/xkcd",
-	"lib/urban",
 ]
