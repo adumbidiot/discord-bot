@@ -28,7 +28,6 @@ use serenity::{
             UserId,
         },
     },
-    prelude::TypeMapKey,
 };
 use std::{
     collections::{
@@ -36,7 +35,6 @@ use std::{
         HashSet,
     },
     path::Path,
-    sync::Arc,
 };
 use toml::Value;
 
@@ -64,14 +62,8 @@ fn help(
 group!({
     name: "general",
     options: {},
-    commands: [ping, xkcd]
+    commands: [ping]
 });
-
-struct XkcdKey;
-
-impl TypeMapKey for XkcdKey {
-    type Value = Arc<xkcd::Client>;
-}
 
 #[derive(Deserialize, Debug)]
 struct Config {
@@ -134,9 +126,6 @@ fn main() {
         });
 
     client.with_framework(framework);
-
-    let xkcd_client = Arc::from(xkcd::Client::new());
-    client.data.write().insert::<XkcdKey>(xkcd_client);
 
     println!("[INFO] Logging in...");
     if let Err(why) = client.start() {
